@@ -31,3 +31,17 @@ pack([X, Y|Ys], [[X]|Z]) :-
     X \= Y, pack([Y|Ys], Z).
 pack([X, X|Xs], [[X|XX]|Y]):-
    pack([X|Xs], [XX|Y]).
+
+% rlencode - produces a run-lengh encoding of a list with sequemces of repeition
+rlencode([], []) :- !.
+rlencode(L, [[N,X]|Y]) :-
+          pack(L,[[X|Xs]|T]),
+          length([X|Xs],N),
+          !,rlencode(T, Y).
+
+% range - list of integers bracketed by a lower and upper bound
+range(X,X,[X]).
+range(X,Y,[X|L]) :-
+  X < Y,
+  Z is X + 1,
+  range(Z,Y,L).
